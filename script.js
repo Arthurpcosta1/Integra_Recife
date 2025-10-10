@@ -1,4 +1,254 @@
-document.addEventListener('DOMContentLoaded', () => {
+// Aguarda o carregamento completo da página para começar a rodar o script
+
+
+    // =================================================================
+    // ESTADO GLOBAL DA APLICAÇÃO
+    // Funciona como a "memória" do nosso app. Tudo que pode mudar fica aqui.
+    // =================================================================
+    let state = {
+        isAuthenticated: false,
+        currentUser: null,
+        currentScreen: 'main',
+        selectedEventId: null,
+        selectedTourId: null,
+        showRatingModal: false,
+        ratingEventName: '',
+        searchQuery: '',
+        activeCategoryFilter: 'Todos', // RF02 - Novo estado para o filtro
+        menuOpen: false,
+        hasNotification: false, // RF04 - Novo estado para notificações
+        events: [
+            { id: 1, title: "Festival Rec-Beat 2025", date: "15 de Outubro, 2025", time: "18:00", location: "Cais da Alfândega", image: "https://images.unsplash.com/photo-1672841821756-fc04525771c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb25jZXJ0JTIwbXVzaWMlMjBmZXN0aXZhbHxlbnwxfHx8fDE3NjAwMjAyODh8MA&ixlib=rb-4.1.0&q=80&w=1080", category: "Música", categoryColor: "#e48e2c", liked: false, description: "O maior festival de música independente do Nordeste retorna ao Recife! Três dias de shows com artistas nacionais e internacionais, food trucks e muito mais.", rating: 4.5, reviewCount: 328 },
+            { id: 2, title: "Teatro de Santa Isabel - Ariano Suassuna", date: "20 de Outubro, 2025", time: "20:30", location: "Teatro de Santa Isabel", image: "https://images.unsplash.com/photo-1539964604210-db87088e0c2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0aGVhdGVyJTIwc3RhZ2UlMjBwZXJmb3JtYW5jZXxlbnwxfHx8fDE3NjAwMDM1MTV8MA&ixlib=rb-4.1.0&q=80&w=1080", category: "Teatro", categoryColor: "#b31a4d", liked: true, description: "Espetáculo emocionante baseado na obra do mestre Ariano Suassuna.", rating: 5, reviewCount: 156 },
+            { id: 3, title: "Festival Gastronômico do Recife", date: "25 de Outubro, 2025", time: "17:00", location: "Parque Dona Lindu", image: "https://images.unsplash.com/photo-1742646802610-9d4c9628b793?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmb29kJTIwZ2FzdHJvbm9teSUyMHJlc3RhdXJhbnR8ZW58MXx8fHwxNzYwMDUzOTc3fDA&ixlib=rb-4.1.0&q=80&w=1080", category: "Gastronomia", categoryColor: "#4a920f", liked: false, description: "Descubra os sabores do Recife! Festival com mais de 50 restaurantes participantes.", rating: 4.8, reviewCount: 445 },
+            { id: 4, title: "Carnaval de Olinda 2026", date: "14 de Fevereiro, 2026", time: "08:00", location: "Ladeiras de Olinda", image: "https://images.unsplash.com/photo-1681830059111-0600ef0c4958?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWNpZmUlMjBicmF6aWwlMjBiZWFjaHxlbnwxfHx8fDE3NjAwNTM_MA&ixlib=rb-4.1.0&q=80&w=1080", category: "Festival", categoryColor: "#582bac", liked: true, description: "O melhor carnaval de rua do Brasil! Blocos tradicionais, frevo no pé e muita alegria.", rating: 5, reviewCount: 1203 }
+        ],
+        nextEventId: 5,
+        tours: [
+            // (Seus dados de roteiros aqui...)
+        ],
+        nextTourId: 3,
+        pastEvents: [
+            // (Seus dados de eventos passados aqui...)
+        ]
+    };
+
+    // =================================================================
+    // MAPEAMENTO DOS ELEMENTOS HTML (DOM)
+    // Para não ter que ficar buscando os mesmos elementos toda hora.
+    // =================================================================
+    const loginScreenContainer = document.getElementById('login-screen-container');
+    const appContainer = document.getElementById('app-container');
+    const mainContent = document.getElementById('app-main');
+    const navList = document.getElementById('nav-list');
+    const navUserInfo = document.getElementById('nav-user-info');
+    const logoutBtn = document.getElementById('logout-btn');
+    const menuBtn = document.getElementById('menu-btn');
+    const closeMenuBtn = document.getElementById('close-menu-btn');
+    const appNav = document.getElementById('app-nav');
+    const ratingModalContainer = document.getElementById('rating-modal-container');
+    const notificationBtn = document.getElementById('notification-btn');
+    const notificationDot = document.getElementById('notification-dot');
+
+    // =================================================================
+    // FUNÇÕES DE LÓGICA E MANIPULAÇÃO DE ESTADO
+    // O cérebro do aplicativo: aqui ficam as regras de negócio.
+    // =================================================================
+
+    function handleLogin(userData) {
+        state.currentUser = userData;
+        state.isAuthenticated = true;
+        state.currentScreen = userData.type === 'admin' ? 'admin' : 'main';
+        renderApp();
+    }
+
+    // (As outras funções de lógica como handleLogout, handleToggleLike, etc. continuam aqui)
+
+    // RF01 e RF10: Adicionar novo evento
+    function handleAddEvent(newEvent) {
+        const event = { ...newEvent, id: state.nextEventId++, rating: 0, reviewCount: 0, liked: false };
+        state.events.push(event);
+        state.hasNotification = true; // RF04: Ativa a notificação
+        renderApp();
+    }
+
+    // RF10: Adicionar novo roteiro
+    function handleAddTour(newTour) {
+        const tour = { ...newTour, id: state.nextTourId++, points: [] }; // Simplificado
+        state.tours.push(tour);
+        renderApp();
+    }
+
+    // =================================================================
+    // FUNÇÕES DE RENDERIZAÇÃO
+    // Responsáveis por desenhar a interface na tela com base no estado atual.
+    // =================================================================
+
+    // RF02: Tela principal com filtros de categoria
+    function renderMainScreen() {
+        const categories = ['Todos', ...new Set(state.events.map(e => e.category))];
+        const filtersHTML = categories.map(cat => `
+            <button class="filter-btn ${state.activeCategoryFilter === cat ? 'active' : ''}" data-category="${cat}">
+                ${cat}
+            </button>
+        `).join('');
+
+        const filteredEvents = state.events.filter(event => {
+            const matchesCategory = state.activeCategoryFilter === 'Todos' || event.category === state.activeCategoryFilter;
+            const matchesSearch = event.title.toLowerCase().includes(state.searchQuery.toLowerCase());
+            return matchesCategory && matchesSearch;
+        });
+
+        mainContent.innerHTML = `
+            <div class="main-screen">
+                <div class="screen-header">
+                    <h1 class="screen-title">Olá, ${state.currentUser.name}!</h1>
+                    <p class="screen-subtitle">Descubra os melhores eventos acontecendo no Recife.</p>
+                </div>
+                <div class="search-section">
+                    <input type="text" id="search-input" placeholder="Buscar por nome do evento..." value="${state.searchQuery}">
+                </div>
+                <div class="filters-container">${filtersHTML}</div>
+                <div class="events-grid">
+                    ${filteredEvents.length > 0 ? filteredEvents.map(event => `...`).join('') : '<p>Nenhum evento encontrado para os filtros selecionados.</p>'}
+                </div>
+            </div>`;
+    }
+
+    // RF07: Tela de detalhes com botão de compartilhar
+    function renderEventDetailScreen() {
+        // ... (código para buscar o evento)
+        mainContent.innerHTML = `
+            // ... (HTML dos detalhes do evento)
+            <div class="detail-actions">
+                <button class="primary-btn" id="rate-event-btn"><i data-lucide="star"></i> Avaliar Evento</button>
+                <button class="secondary-btn" id="share-btn"><i data-lucide="share-2"></i> Compartilhar</button>
+            </div>
+        `;
+    }
+
+    // RF01, RF05, RF10: Painel do Administrador
+    function renderAdminDashboard() {
+        mainContent.innerHTML = `
+            <div class="admin-dashboard">
+                <div class="screen-header">...</div>
+                
+                <div class="form-container">
+                    <div class="form-header"><h2>Adicionar Novo Evento</h2></div>
+                    <form id="add-event-form">...</form>
+                </div>
+                <div class="table-container">
+                    <div class="table-header"><h2>Eventos Cadastrados</h2></div>
+                    <table class="data-table">...</table>
+                </div>
+
+                <div class="form-container">
+                    <div class="form-header"><h2>Adicionar Novo Roteiro</h2></div>
+                    <form id="add-tour-form">...</form>
+                </div>
+                <div class="table-container">
+                    <div class="table-header"><h2>Roteiros Cadastrados</h2></div>
+                    <table class="data-table">...</table>
+                </div>
+            </div>`;
+    }
+
+    // RF05: Tela de Relatórios
+    function renderReportsScreen() {
+        const totalEvents = state.events.length;
+        const totalLikes = state.events.filter(e => e.liked).length;
+        const averageRating = (state.events.reduce((acc, e) => acc + e.rating, 0) / totalEvents).toFixed(1);
+
+        mainContent.innerHTML = `
+            <div class="reports-screen">
+                <div class="screen-header">
+                    <h1 class="screen-title">Relatórios Gerenciais</h1>
+                    <p class="screen-subtitle">Visão geral do engajamento e atividades.</p>
+                </div>
+                <div class="report-grid">
+                    <div class="report-card">
+                        <h3>Total de Eventos</h3>
+                        <p>${totalEvents}</p>
+                    </div>
+                    <div class="report-card">
+                        <h3>Total de Favoritos</h3>
+                        <p>${totalLikes}</p>
+                    </div>
+                    <div class="report-card">
+                        <h3>Média de Avaliação</h3>
+                        <p>${averageRating}</p>
+                    </div>
+                </div>
+            </div>`;
+    }
+    
+    // Atualiza a navegação
+    function renderNavigation() {
+        // ... (seu código de renderNavigation)
+        // Adiciona o item "Relatórios" se for admin
+        if (state.currentUser.type === 'admin') {
+            navList.innerHTML += `
+                <li data-screen="reports" class="${state.currentScreen === 'reports' ? 'active' : ''}">
+                    <i data-lucide="bar-chart-2"></i><span>Relatórios</span>
+                </li>`;
+        }
+    }
+    
+    // =================================================================
+    // RENDERIZADOR PRINCIPAL
+    // Orquestra a renderização de toda a aplicação.
+    // =================================================================
+    function renderApp() {
+        // ... (lógica de autenticação)
+        
+        switch (state.currentScreen) {
+            case 'main': renderMainScreen(); break;
+            case 'reports': renderReportsScreen(); break; // RF05
+            // ... (outras telas)
+        }
+
+        // RF04: Atualiza o ícone de notificação
+        notificationDot.classList.toggle('hidden', !state.hasNotification);
+
+        // ... (resto da função)
+    }
+
+    // =================================================================
+    // REGISTRO DE EVENTOS (EVENT LISTENERS)
+    // Conecta as ações do usuário (cliques, digitação) com as funções de lógica.
+    // =================================================================
+    function addEventListeners() {
+        // ... (seus event listeners anteriores)
+
+        // RF02: Listener para os botões de filtro
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                state.activeCategoryFilter = btn.dataset.category;
+                renderApp();
+            });
+        });
+
+        // RF07: Listener para o botão de compartilhar
+        const shareBtn = document.getElementById('share-btn');
+        if (shareBtn) {
+            shareBtn.addEventListener('click', () => {
+                alert('Card gerado para compartilhamento!\n(funcionalidade simulada)');
+            });
+        }
+    }
+
+    // RF04: Listener para o botão de notificação
+    notificationBtn.addEventListener('click', () => {
+        if (state.hasNotification) {
+            alert("Novo evento cadastrado: 'Nome do Último Evento'!\nConfira no calendário.");
+            state.hasNotification = false;
+            renderApp();
+        } else {
+            alert("Nenhuma nova notificação.");
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
 
     // =================================================================
     // ESTADO DA APLICAÇÃO 
@@ -743,6 +993,4 @@ function setupAccordion() {
 // Isso deve ser feito sempre que a tela mudar, ou apenas uma vez se o acordeão for estático
 setupAccordion();
 
-
-// Fim do evento DOMContentLoaded
-});
+})();

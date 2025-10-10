@@ -11,6 +11,401 @@
   --border-color: rgba(131, 135, 193, 0.4);
   --shadow-color: rgba(0, 0, 0, 0.05);
   --accent-color: rgb(194, 33, 105);
+  --notification-color: #ff4757;
+}
+
+/* ... (Todo o CSS anterior continua aqui, sem alterações) ... */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+}
+
+body {
+  position: relative;
+  background: var(--bg-body);
+  overflow: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ============================================ */
+/* LAYOUT PRINCIPAL DO APP */
+/* ============================================ */
+.app-container {
+  min-height: 100vh;
+  background: var(--bg-body);
+  display: flex;
+}
+
+.mobile-header {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--card-bg-color);
+  border-bottom: 2px solid var(--border-color);
+  padding: 0 20px;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+}
+
+.mobile-header h1 {
+  color: var(--primary-color);
+}
+
+.menu-btn,
+.close-menu,
+.notification-btn {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-area {
+  position: relative;
+}
+
+.notification-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 10px;
+  height: 10px;
+  background-color: var(--notification-color);
+  border-radius: 50%;
+  border: 2px solid var(--card-bg-color);
+}
+
+.app-nav {
+  width: 280px;
+  background: var(--card-bg-color);
+  border-right: 2px solid var(--border-color);
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.nav-header h2 {
+  color: var(--accent-color);
+}
+
+.close-menu {
+  display: none;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nav-list li {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 20px;
+  color: var(--primary-color);
+  cursor: pointer;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.nav-list li:hover {
+  background: rgba(106, 109, 155, 0.2);
+}
+
+.nav-list li.active {
+  background: rgba(106, 109, 155, 0.4);
+  box-shadow: 0px 2px 8px var(--shadow-color);
+}
+
+.app-main {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+.main-screen,
+.tours-screen,
+.profile-screen,
+.admin-dashboard,
+.reports-screen {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.screen-header {
+  margin-bottom: 40px;
+}
+
+.screen-title {
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.screen-subtitle {
+  color: var(--primary-color);
+  opacity: 0.7;
+}
+
+/* ... (Estilos do Login, Cards, etc. continuam aqui) ... */
+
+/* ============================================ */
+/* FILTROS DE EVENTOS (RF02) */
+/* ============================================ */
+.filters-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.filter-btn {
+  padding: 10px 20px;
+  border: 2px solid var(--border-color);
+  border-radius: 25px;
+  background: var(--card-bg-color);
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--primary-hover-color);
+}
+
+.filter-btn.active {
+  background: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+}
+
+/* ============================================ */
+/* DETALHES DO EVENTO (BOTÃO COMPARTILHAR - RF07) */
+/* ============================================ */
+.detail-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.primary-btn,
+.secondary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.primary-btn {
+  background: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+}
+
+.primary-btn:hover {
+  background: transparent;
+  color: var(--accent-color);
+}
+
+.secondary-btn {
+  background: var(--card-bg-color);
+  color: var(--primary-color);
+  border-color: var(--border-color);
+}
+
+.secondary-btn:hover {
+  background: rgba(106, 109, 155, 0.2);
+  border-color: var(--accent-color);
+}
+
+/* ============================================ */
+/* PAINEL ADMIN E RELATÓRIOS (RF01, RF05, RF10) */
+/* ============================================ */
+.admin-dashboard, .reports-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.form-container, .table-container, .report-container {
+  background: var(--card-bg-color);
+  border: 2px solid var(--border-color);
+  border-radius: 16px;
+  padding: 30px;
+}
+
+.form-header, .table-header, .report-header {
+  margin-bottom: 30px;
+  color: var(--primary-color);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th, .data-table td {
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.data-table th {
+  font-weight: 600;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.delete-btn {
+  padding: 8px 16px;
+  background: transparent;
+  border: 2px solid #ff4757;
+  border-radius: 8px;
+  color: #ff4757;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+  background: #ff4757;
+  color: white;
+}
+
+.report-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.report-card {
+    background: var(--bg-body);
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.report-card h3 {
+    color: var(--primary-color);
+    opacity: 0.7;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.report-card p {
+    color: var(--primary-color);
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+/* ... (Todos os outros estilos, como modal, login, etc., continuam aqui) ... */
+/* ... (E adicione os estilos do ACCORDION que te passei antes no final, se ainda não estiverem lá) ... */
+
+/* ============================================ */
+/* COMPONENTE ACCORDION (SANFONA) */
+/* ============================================ */
+.faq-section {
+  max-width: 800px;
+  margin: 40px auto;
+}
+
+.accordion-item {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.accordion-trigger {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 4px;
+  font-weight: 600;
+  color: var(--primary-color);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.accordion-trigger:hover {
+  text-decoration: underline;
+}
+
+.accordion-chevron {
+  height: 16px;
+  width: 16px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease-in-out;
+}
+
+.accordion-trigger[aria-expanded="true"] .accordion-chevron {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  overflow: hidden;
+  color: var(--primary-color);
+  opacity: 0.9;
+  max-height: 0;
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+.accordion-content p {
+  padding: 0 4px 16px;
+  line-height: 1.6;
+}
+
+/* Adicionando todos os demais estilos que você já tinha... */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Roboto:wght@300;400;500;700&display=swap");
+
+:root {
+  --bg-body: rgb(245, 247, 255);
+  --primary-color: rgb(42, 51, 65);
+  --primary-hover-color: rgb(158, 161, 166);
+  --scrollbar-color: rgba(131, 135, 193, 0.4);
+  --card-bg-color: rgba(230, 231, 247, 0.1);
+  --pop-bg-color: rgb(245, 247, 255, 0.9);
+  --star-color: #ddcc14;
+  --border-color: rgba(131, 135, 193, 0.4);
+  --shadow-color: rgba(0, 0, 0, 0.05);
+  --accent-color: rgb(194, 33, 105);
 }
 
 .darkmode {
@@ -2624,3 +3019,6 @@ body::-webkit-scrollbar-thumb {
   padding: 0 4px 16px;
   line-height: 1.6;
 }
+/* ============================================ */
+/* (Estilos de: .login-container, .modal-overlay, .profile-screen, etc.) */
+/* ============================================ */
