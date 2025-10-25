@@ -34,7 +34,10 @@
             "class-variance-authority": "^0.7.1",
             "clsx": "*",
             "cmdk": "^1.1.1",
+<<<<<<< HEAD
             "date-fns": "*",
+=======
+>>>>>>> 1a00f3b88553ab58e579502ecd3d2874fc5ea5b9
             "embla-carousel-react": "^8.6.0",
             "hono": "*",
             "input-otp": "^1.4.2",

@@ -1,15 +1,64 @@
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Projeto Ana/Jenifer</title>
-    </head>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integra Recife</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
 
-    <body>
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-    </body>
-  </html>
-  
+    <div id="login-screen-container"></div>
+
+    <div id="app-container" class="app-container hidden">
+        <div class="mobile-header">
+            <button class="menu-btn" id="menu-btn">
+                <i data-lucide="menu"></i>
+            </button>
+            <h1>Integra Recife</h1>
+            <div class="notification-area">
+                <button class="notification-btn" id="notification-btn">
+                    <i data-lucide="bell"></i>
+                    <span class="notification-dot hidden" id="notification-dot"></span>
+                </button>
+            </div>
+        </div>
+
+        <nav class="app-nav" id="app-nav">
+            <div class="nav-header">
+                <h2>Integra Recife</h2>
+                <button class="close-menu" id="close-menu-btn">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <div id="nav-user-info" class="nav-user-info">
+                </div>
+
+            <ul class="nav-list" id="nav-list">
+                </ul>
+
+            <div class="nav-footer">
+                <button class="logout-btn" id="logout-btn">
+                    <i data-lucide="log-out"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </nav>
+
+        <main class="app-main" id="app-main">
+            </main>
+    </div>
+
+    <div id="rating-modal-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+>>>>>>> 027dbf8892f90a41073ff855b46b952d69280c16
+>>>>>>> 1a00f3b88553ab58e579502ecd3d2874fc5ea5b9

@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
   # Projeto Ana/Jenifer
 
   This is a code bundle for Projeto Ana/Jenifer. The original project is available at https://www.figma.com/design/ir091r2byb5VeG9lAKP7MD/Projeto-Ana-Jenifer.
@@ -9,3 +10,15 @@
 
   Run `npm run dev` to start the development server.
   
+=======
+  # Projeto Integra Recife
+
+
+
+
+
+ `npm i` 
+
+`npm run dev`
+  
+>>>>>>> 1a00f3b88553ab58e579502ecd3d2874fc5ea5b9

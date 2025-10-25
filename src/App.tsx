@@ -11,6 +11,7 @@ import { ChatForum } from './components/ChatForum';
 import { ReportsScreen } from './components/ReportsScreen';
 import { ProjectsModule } from './components/ProjectsModule';
 import { NotificationSystem } from './components/NotificationSystem';
+<<<<<<< HEAD
 import { CalendarScreen } from './components/CalendarScreen';
 import { ManagerialReports } from './components/ManagerialReports';
 import { Toaster } from './components/ui/sonner';
@@ -18,6 +19,13 @@ import { Calendar, MapPin, Heart, User, Menu, X, LogOut, Settings, MessageSquare
 import { DatabaseSetup } from './components/DatabaseSetup';
 
 type Screen = 'main' | 'eventDetail' | 'tours' | 'tourDetail' | 'profile' | 'admin' | 'chat' | 'reports' | 'projects' | 'database' | 'calendar' | 'managerialReports';
+=======
+import { Toaster } from './components/ui/sonner';
+import { Calendar, MapPin, Heart, User, Menu, X, LogOut, Settings, MessageSquare, BarChart3, Folder, Database } from 'lucide-react';
+import { DatabaseSetup } from './components/DatabaseSetup';
+
+type Screen = 'main' | 'eventDetail' | 'tours' | 'tourDetail' | 'profile' | 'admin' | 'chat' | 'reports' | 'projects' | 'database';
+>>>>>>> 1a00f3b88553ab58e579502ecd3d2874fc5ea5b9
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -427,6 +435,7 @@ export default function App() {
             <span>Roteiros</span>
           </li>
           <li 
+<<<<<<< HEAD
             className={currentScreen === 'calendar' ? 'active' : ''}
             onClick={() => {
               setCurrentScreen('calendar');
@@ -437,6 +446,8 @@ export default function App() {
             <span>Calendário</span>
           </li>
           <li 
+=======
+>>>>>>> 1a00f3b88553ab58e579502ecd3d2874fc5ea5b9
             className={currentScreen === 'chat' ? 'active' : ''}
             onClick={() => {
               setCurrentScreen('chat');
@@ -478,6 +489,7 @@ export default function App() {
                 <Database size={20} />
                 <span>Config. Banco</span>
               </li>
+<<<<<<< HEAD
               <li 
                 className={currentScreen === 'managerialReports' ? 'active' : ''}
                 onClick={() => {
@@ -488,6 +500,8 @@ export default function App() {
                 <FileText size={20} />
                 <span>Relatórios Gerenciais</span>
               </li>
+=======
+>>>>>>> 1a00f3b88553ab58e579502ecd3d2874fc5ea5b9
             </>
           )}
           {currentUser?.type === 'cidadao' && (
@@ -601,6 +615,7 @@ export default function App() {
         {currentScreen === 'database' && currentUser?.type === 'admin' && (
           <DatabaseSetup />
         )}
+<<<<<<< HEAD
 
         {currentScreen === 'calendar' && (
           <CalendarScreen 
@@ -612,6 +627,8 @@ export default function App() {
         {currentScreen === 'managerialReports' && currentUser?.type === 'admin' && (
           <ManagerialReports events={events} />
         )}
+=======
+>>>>>>> 1a00f3b88553ab58e579502ecd3d2874fc5ea5b9
       </main>
 
       {/* Rating Modal */}
@@ -624,4 +641,8 @@ export default function App() {
       )}
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 1a00f3b88553ab58e579502ecd3d2874fc5ea5b9

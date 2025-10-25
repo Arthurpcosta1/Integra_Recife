@@ -6,7 +6,11 @@ interface Usuario {
   id: string;
   email: string;
   nome: string;
+<<<<<<< HEAD
   tipo: 'admin' | 'cidadao';
+=======
+  tipo: 'admin' | 'citizen';
+>>>>>>> 1a00f3b88553ab58e579502ecd3d2874fc5ea5b9
   dataCriacao: string;
 }
 
@@ -136,7 +140,11 @@ export const UserManagement: React.FC<UserManagementProps> = ({ accessToken }) =
             </div>
             <div className="stat-item">
               <span className="stat-label">Cidadãos:</span>
+<<<<<<< HEAD
               <span className="stat-value">{usuarios.filter(u => u.tipo === 'cidadao').length}</span>
+=======
+              <span className="stat-value">{usuarios.filter(u => u.tipo === 'citizen').length}</span>
+>>>>>>> 1a00f3b88553ab58e579502ecd3d2874fc5ea5b9
             </div>
           </div>
 
